@@ -7,7 +7,11 @@ import (
 type Map struct {
 	Height int
 	Width int
-	Field [][]bool
+	Field [][]*Block
+}
+
+type Block struct {
+	Falling bool
 }
 
 func (m *Map) Display() {
@@ -19,7 +23,7 @@ func (m *Map) Display() {
 		}
 		for _, p := range row {
 			var color string
-			if p {
+			if p != nil {
 				color = "\x1b[37m\x1b[42m%s\x1b[0m"
 			} else {
 				color = "\x1b[30m\x1b[47m%s\x1b[0m"
@@ -33,20 +37,20 @@ func (m *Map) Display() {
 func (m *Map) Next() {
 	for i := m.Height-2; i >= 0; i-- {
 		for j := 0; j < m.Width; j++ {
-			if !m.Field[i+1][j] {
+			if m.Field[i+1][j] == nil {
 				m.Field[i+1][j] = m.Field[i][j]
-				m.Field[i][j] = false
+				m.Field[i][j] = nil
 			}
 		}
 	}
-	m.Field[0] = make([]bool, m.Width)
+	m.Field[0] = make([]*Block, m.Width)
 }
 
 func NewMap(width int, height int) *Map {
 	height += 4
-	field := make([][]bool, height)
+	field := make([][]*Block, height)
 	for i := 0; i < height; i++ {
-			field[i] = make([]bool, width)
+			field[i] = make([]*Block, width)
 	}
 	m := Map { height, width,  field }
 	return &m
