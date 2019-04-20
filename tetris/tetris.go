@@ -11,9 +11,12 @@ type Map struct {
 }
 
 func (m *Map) Display() {
-	s := fmt.Sprintf("\033[%dA", m.Height)
+	s := fmt.Sprintf("\033[%dA", m.Height-4)
 	fmt.Printf(s)
-	for _, row := range m.Field {
+	for index, row := range m.Field {
+		if index < 4 {
+			continue
+		}
 		for _, p := range row {
 			var color string
 			if p {
@@ -27,22 +30,20 @@ func (m *Map) Display() {
 	}
 }
 
-// func (m *Map) Next() {
-// 	for i := range m.Height-1 {
-// 		for j := range m.Width-1 {
-// 			var color string
-// 			if p {
-// 				color = "\x1b[37m\x1b[42m%s\x1b[0m"
-// 			} else {
-// 				color = "\x1b[30m\x1b[47m%s\x1b[0m"
-// 			}
-// 			fmt.Printf(color, "  ")
-// 		}
-// 		fmt.Printf("\n")
-// 	}
-// }
+func (m *Map) Next() {
+	for i := m.Height-2; i >= 0; i-- {
+		for j := 0; j < m.Width; j++ {
+			if !m.Field[i+1][j] {
+				m.Field[i+1][j] = m.Field[i][j]
+				m.Field[i][j] = false
+			}
+		}
+	}
+	m.Field[0] = make([]bool, m.Width)
+}
 
 func NewMap(width int, height int) *Map {
+	height += 4
 	field := make([][]bool, height)
 	for i := 0; i < height; i++ {
 			field[i] = make([]bool, width)
