@@ -17,7 +17,7 @@ func main() {
 	t.Field[1][6] = &tetris.Block{ true }
 	for {
 		t.Display()
-		time.Sleep(1 * time.Second)
+		time.Sleep(500 * time.Millisecond)
 		t.Next()
 	}
 }
