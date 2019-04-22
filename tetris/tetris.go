@@ -47,6 +47,7 @@ func (m *Map) Next() {
 		}
 	}
 
+	// ブロックが下に着いたらフリーズ
 	if freeze {
 		for i := m.Height-1; i >= 0; i-- {
 			for j := 0; j < m.Width; j++ {
@@ -57,15 +58,34 @@ func (m *Map) Next() {
 		}
 	}
 
+	// フリーズされていないブロックを1マス下げる
 	for i := m.Height-2; i >= 0; i-- {
 		for j := 0; j < m.Width; j++ {
-			if m.Field[i+1][j] == nil && m.Field[i][j] != nil && m.Field[i][j].Falling   {
+			if m.Field[i+1][j] == nil && m.Field[i][j] != nil && m.Field[i][j].Falling {
 				m.Field[i+1][j] = m.Field[i][j]
 				m.Field[i][j] = nil
 			}
 		}
 	}
 	m.Field[0] = make([]*Block, m.Width)
+}
+
+func (m *Map) IsAllFreeze() bool {
+	for i := m.Height-1; i >= 0; i-- {
+		for j := 0; j < m.Width; j++ {
+			if m.Field[i][j] != nil && m.Field[i][j].Falling  {
+					return false
+			}
+		}
+	}
+	return true
+}
+
+func (m *Map) NextBlock() {
+	m.Field[0][5] = &Block{ true }
+	m.Field[1][5] = &Block{ true }
+	m.Field[2][5] = &Block{ true }
+	m.Field[1][6] = &Block{ true }
 }
 
 func NewMap(width int, height int) *Map {

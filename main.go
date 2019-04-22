@@ -15,13 +15,12 @@ func main() {
 	t.Field[6][5] = &tetris.Block{ true }
 	t.Field[7][5] = &tetris.Block{ true }
 	t.Field[6][6] = &tetris.Block{ true }
-	t.Field[4][5] = &tetris.Block{ true }
-	t.Field[4][6] = &tetris.Block{ true }
-	t.Field[4][7] = &tetris.Block{ true }
-	t.Field[4][8] = &tetris.Block{ true }
 	for {
 		t.Display()
 		time.Sleep(500 * time.Millisecond)
 		t.Next()
+		if t.IsAllFreeze() {
+			t.NextBlock()
+		}
 	}
 }
