@@ -35,9 +35,31 @@ func (m *Map) Display() {
 }
 
 func (m *Map) Next() {
+	freeze := false
+	// 落下中のものをチェック
+	for i := m.Height-1; i >= 0; i-- {
+		for j := 0; j < m.Width; j++ {
+			if m.Field[i][j] != nil && m.Field[i][j].Falling  {
+				if i == m.Height-1 || (m.Field[i+1][j] != nil && !m.Field[i+1][j].Falling) {
+					freeze = true
+				}
+			}
+		}
+	}
+
+	if freeze {
+		for i := m.Height-1; i >= 0; i-- {
+			for j := 0; j < m.Width; j++ {
+				if m.Field[i][j] != nil && m.Field[i][j].Falling  {
+					m.Field[i][j].Falling = false
+				}
+			}
+		}
+	}
+
 	for i := m.Height-2; i >= 0; i-- {
 		for j := 0; j < m.Width; j++ {
-			if m.Field[i+1][j] == nil {
+			if m.Field[i+1][j] == nil && m.Field[i][j] != nil && m.Field[i][j].Falling   {
 				m.Field[i+1][j] = m.Field[i][j]
 				m.Field[i][j] = nil
 			}

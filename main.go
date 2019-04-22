@@ -11,10 +11,14 @@ func main() {
 	width, height := 20, 20
 	t := tetris.NewMap(width, height)
 	fmt.Printf(strings.Repeat("\n", height))
-	t.Field[0][5] = &tetris.Block{ true }
-	t.Field[1][5] = &tetris.Block{ true }
-	t.Field[2][5] = &tetris.Block{ true }
-	t.Field[1][6] = &tetris.Block{ true }
+	t.Field[5][5] = &tetris.Block{ true }
+	t.Field[6][5] = &tetris.Block{ true }
+	t.Field[7][5] = &tetris.Block{ true }
+	t.Field[6][6] = &tetris.Block{ true }
+	t.Field[4][5] = &tetris.Block{ true }
+	t.Field[4][6] = &tetris.Block{ true }
+	t.Field[4][7] = &tetris.Block{ true }
+	t.Field[4][8] = &tetris.Block{ true }
 	for {
 		t.Display()
 		time.Sleep(500 * time.Millisecond)
