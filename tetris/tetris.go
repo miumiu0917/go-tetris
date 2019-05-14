@@ -89,12 +89,26 @@ func (m *Map) NextBlock() {
 }
 
 func (m *Map) Move(direction int) {
+	var target [][2]int
 	for i := m.Height-1; i >= 0; i-- {
 		for j := 0; j < m.Width; j++ {
 			if m.Field[i][j] != nil && m.Field[i][j].Falling  {
-				m.Field[i][j-1] = m.Field[i][j]
-				m.Field[i][j] = nil
+				target = append(target, [2]int{i, j})
 			}
+		}
+	}
+	for _, p := range target {
+		x := p[1]
+		y := p[0]
+		m.Field[y][x] = nil
+	}
+	for _, p := range target {
+		x := p[1]
+		y := p[0]
+		if direction == 0 {
+			m.Field[y][x-1] = &Block{ true }
+		} else if direction == 1 {
+			m.Field[y][x+1] = &Block{ true }
 		}
 	}
 }
