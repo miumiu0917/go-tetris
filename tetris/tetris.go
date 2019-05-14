@@ -88,6 +88,17 @@ func (m *Map) NextBlock() {
 	m.Field[1][6] = &Block{ true }
 }
 
+func (m *Map) Move(direction int) {
+	for i := m.Height-1; i >= 0; i-- {
+		for j := 0; j < m.Width; j++ {
+			if m.Field[i][j] != nil && m.Field[i][j].Falling  {
+				m.Field[i][j-1] = m.Field[i][j]
+				m.Field[i][j] = nil
+			}
+		}
+	}
+}
+
 func NewMap(width int, height int) *Map {
 	height += 4
 	field := make([][]*Block, height)
