@@ -2,6 +2,7 @@ package tetris
 
 import (
 	"fmt"
+	"math/rand"
 )
 
 type Map struct {
@@ -115,10 +116,44 @@ func (m *Map) IsAllFreeze() bool {
 }
 
 func (m *Map) NextBlock() {
-	m.Field[0][5] = &Block{ Falling: true, Center: false }
-	m.Field[1][5] = &Block{ Falling: true, Center: true }
-	m.Field[2][5] = &Block{ Falling: true, Center: false }
-	m.Field[3][5] = &Block{ Falling: true, Center: false }
+	v := rand.Intn(10)
+	switch v {
+	case 0:
+		m.Field[0][5] = &Block{ Falling: true, Center: false }
+		m.Field[1][5] = &Block{ Falling: true, Center: true }
+		m.Field[2][5] = &Block{ Falling: true, Center: false }
+		m.Field[3][5] = &Block{ Falling: true, Center: false }
+	case 1:
+		m.Field[0][5] = &Block{ Falling: true, Center: false }
+		m.Field[1][5] = &Block{ Falling: true, Center: true }
+		m.Field[2][5] = &Block{ Falling: true, Center: false }
+		m.Field[1][6] = &Block{ Falling: true, Center: false }
+	case 2:
+		m.Field[0][5] = &Block{ Falling: true, Center: false }
+		m.Field[1][5] = &Block{ Falling: true, Center: false }
+		m.Field[0][6] = &Block{ Falling: true, Center: false }
+		m.Field[1][6] = &Block{ Falling: true, Center: false }
+	case 3:
+		m.Field[0][5] = &Block{ Falling: true, Center: false }
+		m.Field[0][6] = &Block{ Falling: true, Center: false }
+		m.Field[0][7] = &Block{ Falling: true, Center: true }
+		m.Field[1][5] = &Block{ Falling: true, Center: false }
+	case 4:
+		m.Field[0][5] = &Block{ Falling: true, Center: false }
+		m.Field[0][6] = &Block{ Falling: true, Center: false }
+		m.Field[0][7] = &Block{ Falling: true, Center: true }
+		m.Field[1][7] = &Block{ Falling: true, Center: false }
+	case 5:
+		m.Field[0][5] = &Block{ Falling: true, Center: false }
+		m.Field[0][6] = &Block{ Falling: true, Center: false }
+		m.Field[1][6] = &Block{ Falling: true, Center: true }
+		m.Field[1][7] = &Block{ Falling: true, Center: false }
+	case 6:
+		m.Field[1][5] = &Block{ Falling: true, Center: false }
+		m.Field[1][6] = &Block{ Falling: true, Center: false }
+		m.Field[0][6] = &Block{ Falling: true, Center: true }
+		m.Field[0][7] = &Block{ Falling: true, Center: false }
+	}
 }
 
 func (m *Map) Move(direction int) {

@@ -7,10 +7,12 @@ import (
 	"strings"
 	term "github.com/nsf/termbox-go"
 	"os"
+	"math/rand"
 )
 
 func main() {
-	width, height := 10, 10
+	rand.Seed(time.Now().UnixNano())
+	width, height := 12, 15
 	t := tetris.NewMap(width, height)
 	fmt.Printf(strings.Repeat("\n", height))
 
