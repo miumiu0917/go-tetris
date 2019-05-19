@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	width, height := 20, 20
+	width, height := 10, 10
 	t := tetris.NewMap(width, height)
 	fmt.Printf(strings.Repeat("\n", height))
 

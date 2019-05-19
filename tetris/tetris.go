@@ -57,6 +57,28 @@ func (m *Map) Next() {
 				}
 			}
 		}
+
+		// 横列が埋まっているか検査
+		for i := m.Height-1; i >= 0; i-- {
+			tmp := true
+			for j := 0; j < m.Width; j++ {
+				if m.Field[i][j] == nil {
+					tmp = false
+				}
+			}
+			// 埋まっていたら削除
+			if tmp {
+				for j := 0; j < m.Width; j++ {
+					m.Field[i][j] = nil
+				}
+				for k := i-1; k >= 0; k-- {
+					for j := 0; j < m.Width; j++ {
+						m.Field[k+1][j] = m.Field[k][j]
+					}
+				}
+				i++
+			}
+		}
 	}
 
 	// フリーズされていないブロックを1マス下げる
@@ -86,7 +108,7 @@ func (m *Map) NextBlock() {
 	m.Field[0][5] = &Block{ Falling: true, Center: false }
 	m.Field[1][5] = &Block{ Falling: true, Center: true }
 	m.Field[2][5] = &Block{ Falling: true, Center: false }
-	m.Field[1][6] = &Block{ Falling: true, Center: false }
+	m.Field[3][5] = &Block{ Falling: true, Center: false }
 }
 
 func (m *Map) Move(direction int) {
@@ -123,12 +145,16 @@ func (m *Map) Move(direction int) {
 			m.Field[y][x-1] = tmp[i]
 		} else if direction == 1 {
 			m.Field[y][x+1] = tmp[i]
-		} else if direction == 2 && center[0] != nil {
-			centerX := *center[1]
-			centerY := *center[0]
-			dx := centerX - x
-			dy := centerY - y
-			m.Field[centerY - dx][centerX + dy] = tmp[i]
+		} else if direction == 2 {
+			if center[0] != nil {
+				centerX := *center[1]
+				centerY := *center[0]
+				dx := centerX - x
+				dy := centerY - y
+				m.Field[centerY - dx][centerX + dy] = tmp[i]
+			} else {
+				m.Field[y][x] = tmp[i]
+			}
 		}
 	}
 }
