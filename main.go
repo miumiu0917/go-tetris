@@ -17,16 +17,12 @@ func main() {
 	q := make(chan int, 2)
 	go interact(q)
 
-	t.Field[5][5] = &tetris.Block{ true }
-	t.Field[6][5] = &tetris.Block{ true }
-	t.Field[7][5] = &tetris.Block{ true }
-	t.Field[6][6] = &tetris.Block{ true }
 	for {
 		t.Display()
 		time.Sleep(500 * time.Millisecond)
 		if len(q) > 0 {
 			event := <- q
-			if event == 0 || event == 1 {
+			if event == 0 || event == 1 || event == 2 {
 				t.Move(event)
 			}
 		}

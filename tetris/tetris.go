@@ -12,6 +12,7 @@ type Map struct {
 
 type Block struct {
 	Falling bool
+	Center bool
 }
 
 func (m *Map) Display() {
@@ -82,10 +83,10 @@ func (m *Map) IsAllFreeze() bool {
 }
 
 func (m *Map) NextBlock() {
-	m.Field[0][5] = &Block{ true }
-	m.Field[1][5] = &Block{ true }
-	m.Field[2][5] = &Block{ true }
-	m.Field[1][6] = &Block{ true }
+	m.Field[0][5] = &Block{ Falling: true, Center: false }
+	m.Field[1][5] = &Block{ Falling: true, Center: true }
+	m.Field[2][5] = &Block{ Falling: true, Center: false }
+	m.Field[1][6] = &Block{ Falling: true, Center: false }
 }
 
 func (m *Map) Move(direction int) {
@@ -98,28 +99,36 @@ func (m *Map) Move(direction int) {
 		}
 	}
 
-	// 移動可能かどうかチェック
-	for _, p := range target {
-		x := p[1]
-		y := p[0]
-		m.Field[y][x] = nil
-	}
-
+	// TODO 移動可能かどうかチェック
+	
 	// 移動前のブロックを削除
+	var tmp []*Block
+	var center [2]*int
 	for _, p := range target {
 		x := p[1]
 		y := p[0]
+		tmp = append(tmp, m.Field[y][x])
+		if m.Field[y][x].Center {
+			center[0] = &y
+			center[1] = &x
+		}
 		m.Field[y][x] = nil
 	}
 
 	// 移動後の座標にブロックを配置
-	for _, p := range target {
+	for i, p := range target {
 		x := p[1]
 		y := p[0]
 		if direction == 0 {
-			m.Field[y][x-1] = &Block{ true }
+			m.Field[y][x-1] = tmp[i]
 		} else if direction == 1 {
-			m.Field[y][x+1] = &Block{ true }
+			m.Field[y][x+1] = tmp[i]
+		} else if direction == 2 && center[0] != nil {
+			centerX := *center[1]
+			centerY := *center[0]
+			dx := centerX - x
+			dy := centerY - y
+			m.Field[centerY - dx][centerX + dy] = tmp[i]
 		}
 	}
 }
