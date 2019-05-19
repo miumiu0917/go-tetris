@@ -35,7 +35,7 @@ func (m *Map) Display() {
 	}
 }
 
-func (m *Map) Next() {
+func (m *Map) Next() bool {
 	freeze := false
 	// 落下中のものをチェック
 	for i := m.Height-1; i >= 0; i-- {
@@ -79,6 +79,15 @@ func (m *Map) Next() {
 				i++
 			}
 		}
+
+		// GameOverCheck
+		for k := 0; k < 4; k++ {
+			for j := 0; j < m.Width; j++ {
+				if m.Field[k][j] != nil {
+					return true
+				}
+			}
+		}
 	}
 
 	// フリーズされていないブロックを1マス下げる
@@ -91,6 +100,7 @@ func (m *Map) Next() {
 		}
 	}
 	m.Field[0] = make([]*Block, m.Width)
+	return false
 }
 
 func (m *Map) IsAllFreeze() bool {

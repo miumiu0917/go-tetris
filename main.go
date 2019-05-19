@@ -26,11 +26,16 @@ func main() {
 				t.Move(event)
 			}
 		}
-		t.Next()
+		gameover := t.Next()
+		if gameover {
+			break
+		}
 		if t.IsAllFreeze() {
 			t.NextBlock()
 		}
 	}
+	term.Close()
+	fmt.Println("GameOver!!!")
 }
 
 func reset() {
