@@ -59,6 +59,8 @@ func interact(q chan int) {
 							q <- 0
 						case term.KeyArrowRight:
 							q <- 1
+						case term.KeyArrowUp:
+							q <- 2
 						default:
 								// we only want to read a single character or one key pressed event
 					}

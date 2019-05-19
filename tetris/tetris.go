@@ -97,11 +97,22 @@ func (m *Map) Move(direction int) {
 			}
 		}
 	}
+
+	// 移動可能かどうかチェック
 	for _, p := range target {
 		x := p[1]
 		y := p[0]
 		m.Field[y][x] = nil
 	}
+
+	// 移動前のブロックを削除
+	for _, p := range target {
+		x := p[1]
+		y := p[0]
+		m.Field[y][x] = nil
+	}
+
+	// 移動後の座標にブロックを配置
 	for _, p := range target {
 		x := p[1]
 		y := p[0]
